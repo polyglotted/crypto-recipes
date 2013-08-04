@@ -12,7 +12,7 @@ public class RsaCryptoTest {
 
     @Test
     public void testCrypto() {
-        String testValue = "Polyglotted Attribute Repository";
+        String testValue = "Polyglotted Crypto";
 
         PublicKey pubKey = RsaKeyReader.readPublicKey(asStream("keys/public_key.der"));
         String encrypted = new RsaEncrypter(pubKey).crypt(testValue);

@@ -1,34 +1,38 @@
 package org.polyglotted.crypto.symmetric;
 
-import java.security.AlgorithmParameters;
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
-
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 
+import lombok.SneakyThrows;
 
-public class AesEncrypter {
+import org.polyglotted.crypto.AbstractCrypto;
+import org.polyglotted.crypto.utils.HexUtils;
 
-    final byte[] salt = new byte[8];
-    final byte[] iv;
+public class AesEncrypter extends AbstractCrypto {
 
-    public AesEncrypter() throws Exception {
-        new SecureRandom().nextBytes(new byte[8]);
-        
+    /**
+     * Create a new AesEncrypter
+     * 
+     * @param passPhrase
+     *            the Passphrase for the secret key
+     * @param salt
+     *            the salt for the secret key
+     */
+    public AesEncrypter(String passPhrase) {
+        super(createCipher(passPhrase));
+    }
 
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        KeySpec spec = new PBEKeySpec("srim@threyisthe1stnamavali".toCharArray(), salt, 65536, 256);
-        SecretKey tmp = factory.generateSecret(spec);
-        SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
-        /* Encrypt the message. */
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, secret);
-        AlgorithmParameters params = cipher.getParameters();
-        iv = params.getParameterSpec(IvParameterSpec.class).getIV();
+    @SneakyThrows
+    private static Cipher createCipher(String passPhrase) {
+        Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, Aes.createSecret(passPhrase));
+        return cipher;
+    }
+
+    @Override
+    @SneakyThrows
+    public String crypt(String text) {
+        byte[] iv = Aes.generateIv(cipher);
+        byte[] cipherText = encrypt(text);
+        return HexUtils.encodeString(iv) + "$" + HexUtils.encodeString(cipherText);
     }
 }

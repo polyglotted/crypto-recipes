@@ -4,6 +4,9 @@ import java.security.PrivateKey;
 
 import javax.crypto.Cipher;
 
+import lombok.SneakyThrows;
+
+import org.polyglotted.crypto.AbstractCrypto;
 import org.polyglotted.crypto.utils.Base64;
 
 /**
@@ -11,9 +14,7 @@ import org.polyglotted.crypto.utils.Base64;
  * 
  * @author Shankar Vasudevan
  */
-public class RsaDecrypter implements RsaCrypto {
-
-    private final Cipher cipher;
+public class RsaDecrypter extends AbstractCrypto {
 
     /**
      * Create a new RsaDecrypter
@@ -22,35 +23,18 @@ public class RsaDecrypter implements RsaCrypto {
      *            the PrivateKey for the decryption
      */
     public RsaDecrypter(PrivateKey key) {
-        this.cipher = createCipher(key);
+        super(createCipher(key));
     }
 
-    private Cipher createCipher(PrivateKey key) {
-        try {
-            final Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            return cipher;
-
-        } catch (Exception ex) {
-            throw new RuntimeException("decrypter failed", ex);
-        }
+    @SneakyThrows
+    private static Cipher createCipher(PrivateKey key) {
+        final Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        return cipher;
     }
 
-    /**
-     * decrypt the given text
-     * 
-     * @param text
-     *            the base64 encoded cipher text
-     * @return String representing plain text
-     */
     @Override
     public String crypt(String text) {
-        try {
-            byte[] cipherValue = Base64.decode(text);
-            return new String(cipher.doFinal(cipherValue));
-
-        } catch (Exception ex) {
-            throw new RuntimeException("decrypt failed", ex);
-        }
+        return decrypt(Base64.decode(text));
     }
 }

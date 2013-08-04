@@ -10,7 +10,7 @@ The project stores a full binary jar file that could be executed.
 
       <dependency>
           <groupId>org.polyglotted</groupId>
-          <artifactId>crypto-utils</artifactId>
+          <artifactId>crypto-recipes</artifactId>
           <version>1.0.0</version>
           <classifier>full</classifier>
       <dependency>
@@ -45,10 +45,10 @@ and hence easy to email around as needed. However, we will need to save the keys
 ### Property file utility
 
 This utility encrypts and decrypts specific key-value pair within a property file based on a prefix for the 
-attribute. This is used in combination with the <https://github.com/polyglotted/attrib-repo.git>. To launch 
+attribute. This is used in combination with the <https://github.com/polyglotted/attribute-repo.git>. To launch 
 the utility, use the following command
 
-      $ java -classpath attrib-repo-crypto-1.0.0-full.jar org.polyglotted.crypto.PropertyFileCryptoMain
+      $ java -classpath crypto-recipes-1.0.0-full.jar org.polyglotted.crypto.PropertyFileCryptoMain
         
 The program expects the following options:
       * --input, -i

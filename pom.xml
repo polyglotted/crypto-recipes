@@ -8,22 +8,23 @@
         <version>1.0.1</version>
     </parent>
 
-    <artifactId>crypto-utils</artifactId>
+    <artifactId>crypto-recipes</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Polyglotted Cryptographic Utilities</name>
-    <description>A library of standard cryptographic utilities for application usage</description>
-    <url>http://www.polyglotted.org/crypto-utils</url>
+    <packaging>jar</packaging>
+    <name>Polyglotted Cryptographic Recipes</name>
+    <description>A library of standard cryptographic recipes for application usage</description>
+    <url>http://www.polyglotted.org/crypto-recipes</url>
 
     <scm>
-        <connection>scm:git:ssh://github.com/polyglotted/crypto-utils.git</connection>
-        <developerConnection>scm:git:git+ssh://git@github.com/polyglotted/crypto-utils.git</developerConnection>
-        <url>https://github.com/polyglotted/crypto-utils</url>
+        <connection>scm:git:ssh://github.com/polyglotted/crypto-recipes.git</connection>
+        <developerConnection>scm:git:git+ssh://git@github.com/polyglotted/crypto-recipes.git</developerConnection>
+        <url>https://github.com/polyglotted/crypto-recipes</url>
         <tag>HEAD</tag>
     </scm>
 
     <properties>
         <junit.version>4.11</junit.version>
+        <lombok.version>0.11.8</lombok.version>
         <jcommander.version>1.30</jcommander.version>
     </properties>
 
@@ -32,6 +33,12 @@
             <groupId>com.beust</groupId>
             <artifactId>jcommander</artifactId>
             <version>${jcommander.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

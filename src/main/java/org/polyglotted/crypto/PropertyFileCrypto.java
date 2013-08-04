@@ -5,7 +5,6 @@ import static org.polyglotted.crypto.asymmetric.RsaKeyReader.readPublicKey;
 
 import java.io.*;
 
-import org.polyglotted.crypto.asymmetric.RsaCrypto;
 import org.polyglotted.crypto.asymmetric.RsaDecrypter;
 import org.polyglotted.crypto.asymmetric.RsaEncrypter;
 
@@ -53,7 +52,7 @@ public class PropertyFileCrypto {
         copyFrom(propertyIs, output, decrypter, prefix);
     }
 
-    private static void copyFrom(InputStream propertyIs, OutputStream output, RsaCrypto crypto, String prefix) {
+    private static void copyFrom(InputStream propertyIs, OutputStream output, Crypto crypto, String prefix) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(propertyIs));
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(output));
         try {
@@ -72,7 +71,7 @@ public class PropertyFileCrypto {
         }
     }
 
-    private static String handle(String line, RsaCrypto crypto, String prefix) {
+    private static String handle(String line, Crypto crypto, String prefix) {
         if (line.startsWith(prefix)) {
             String[] parts = splitProperty(line);
             return parts[0] + EQUALS + crypto.crypt(parts[1]);

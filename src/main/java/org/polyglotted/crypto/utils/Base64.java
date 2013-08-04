@@ -10,6 +10,8 @@ import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
+import lombok.SneakyThrows;
+
 /**
  * Encodes and decodes to and from Base64 notation.
  * <p>
@@ -23,7 +25,7 @@ import java.util.Arrays;
  * @author rob@iharder.net
  * @version 2.1, stripped to minimum feature set used by JGit.
  */
-public class Base64 {
+public abstract class Base64 {
 
     /** the utf-8 encoding */
     private final static String CHARSET_UTF8 = "UTF-8";
@@ -72,11 +74,6 @@ public class Base64 {
         DEC['\n'] = WHITE_SPACE_DEC;
         DEC['\r'] = WHITE_SPACE_DEC;
         DEC[' '] = WHITE_SPACE_DEC;
-    }
-
-    /** Defeats instantiation. */
-    private Base64() {
-        // Suppress empty block warning.
     }
 
     /**
@@ -162,6 +159,7 @@ public class Base64 {
      *            Length of data to convert
      * @return encoded base64 representation of source.
      */
+    @SneakyThrows
     public static String encodeBytes(byte[] source, int off, int len) {
         final int len43 = len * 4 / 3;
 
@@ -178,12 +176,7 @@ public class Base64 {
             e += 4;
         }
 
-        try {
-            return new String(outBuff, 0, e, CHARSET_UTF8);
-        }
-        catch (UnsupportedEncodingException uue) {
-            return new String(outBuff, 0, e);
-        }
+        return new String(outBuff, 0, e, CHARSET_UTF8);
     }
 
     /**
@@ -290,14 +283,9 @@ public class Base64 {
      *            the string to decode
      * @return the decoded data
      */
+    @SneakyThrows
     public static byte[] decode(String s) {
-        byte[] bytes;
-        try {
-            bytes = s.getBytes(CHARSET_UTF8);
-        }
-        catch (UnsupportedEncodingException uee) {
-            bytes = s.getBytes();
-        }
+        byte[] bytes = s.getBytes(CHARSET_UTF8);
         return decode(bytes, 0, bytes.length);
     }
 }

@@ -1,6 +1,6 @@
 package org.polyglotted.crypto.asymmetric;
 
-import static org.polyglotted.crypto.asymmetric.RsaCrypto.ALGORITHM;
+import static org.polyglotted.crypto.Crypto.RSA_ALGORITHM;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class RsaKeyReader {
         try {
             byte[] keyBytes = readBytes(is);
             PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
-            KeyFactory kf = KeyFactory.getInstance(ALGORITHM);
+            KeyFactory kf = KeyFactory.getInstance(RSA_ALGORITHM);
             return kf.generatePrivate(spec);
         }
         catch (Exception ex) {
@@ -65,7 +65,7 @@ public class RsaKeyReader {
         try {
             byte[] keyBytes = readBytes(is);
             X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-            KeyFactory kf = KeyFactory.getInstance(ALGORITHM);
+            KeyFactory kf = KeyFactory.getInstance(RSA_ALGORITHM);
             return kf.generatePublic(spec);
         }
         catch (Exception ex) {

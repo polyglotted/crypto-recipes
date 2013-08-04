@@ -4,6 +4,9 @@ import java.security.PublicKey;
 
 import javax.crypto.Cipher;
 
+import lombok.SneakyThrows;
+
+import org.polyglotted.crypto.AbstractCrypto;
 import org.polyglotted.crypto.utils.Base64;
 
 /**
@@ -11,47 +14,27 @@ import org.polyglotted.crypto.utils.Base64;
  * 
  * @author Shankar Vasudevan
  */
-public class RsaEncrypter implements RsaCrypto {
-
-    private final Cipher cipher;
+public class RsaEncrypter extends AbstractCrypto {
 
     /**
-     * Create a new RsaDecrypter
+     * Create a new RsaEncrypter
      * 
      * @param key
      *            the PublicKey for the encryption
      */
     public RsaEncrypter(PublicKey key) {
-        this.cipher = createCipher(key);
+        super(createCipher(key));
     }
 
-    private Cipher createCipher(PublicKey key) {
-        try {
-            final Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            return cipher;
-
-        }
-        catch (Exception ex) {
-            throw new RuntimeException("encrypter failed", ex);
-        }
+    @SneakyThrows
+    private static Cipher createCipher(PublicKey key) {
+        final Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        return cipher;
     }
 
-    /**
-     * encrypt the given text
-     * 
-     * @param text
-     *            the String representing plain text
-     * @return base64 encoded cipher text
-     */
     @Override
     public String crypt(String text) {
-        try {
-            byte[] cipherText = cipher.doFinal(text.getBytes());
-            return Base64.encodeBytes(cipherText).replace("\n", "");
-        }
-        catch (Exception ex) {
-            throw new RuntimeException("encrypt failed", ex);
-        }
+        return Base64.encodeBytes(encrypt(text)).replace("\n", "");
     }
 }
