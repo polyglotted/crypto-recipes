@@ -1,6 +1,7 @@
-package org.polyglotted.crypto;
+package org.polyglotted.crypto.api;
 
 import javax.crypto.Cipher;
+
 
 /**
  * Marker interface for all RSA crtpto classes
@@ -10,8 +11,16 @@ import javax.crypto.Cipher;
 public interface Crypto {
 
     String RSA_ALGORITHM = "RSA";
-    
     String AES_ALGORITHM = "AES/CBC/PKCS5Padding";
+
+    /**
+     * Perform encrypt or decrypt action
+     * 
+     * @param bytes
+     *            the byte[] to crypt
+     * @return the result byte[]
+     */
+    byte[] crypt(byte[] bytes);
 
     /**
      * Perform encrypt or decrypt action
@@ -23,7 +32,12 @@ public interface Crypto {
     String crypt(String text);
 
     /**
-     * @return the Cipher that is used by this crypto
+     * @return the cipher that is used by this crypto
      */
     Cipher getCipher();
+
+    /**
+     * @return the algorithm that is used by this crypto
+     */
+    String getAlgorithm();
 }
