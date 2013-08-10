@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>crypto-recipes</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Polyglotted Cryptographic Recipes</name>
     <description>A library of standard cryptographic recipes for application usage</description>
@@ -18,7 +18,7 @@
         <connection>scm:git:ssh://github.com/polyglotted/crypto-recipes.git</connection>
         <developerConnection>scm:git:git+ssh://git@github.com/polyglotted/crypto-recipes.git</developerConnection>
         <url>https://github.com/polyglotted/crypto-recipes</url>
-        <tag>crypto-recipes-1.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
