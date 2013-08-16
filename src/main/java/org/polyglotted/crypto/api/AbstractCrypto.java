@@ -35,14 +35,7 @@ public abstract class AbstractCrypto implements Crypto {
             writer.println(getHeaderLine());
             return false;
         }
-        else {
-            handleFirstLine(firstLine);
-            return true;
-        }
-    }
-
-    protected void handleFirstLine(String firstLine) {
-        // marker
+        return true;
     }
 
     protected String getHeaderLine() {

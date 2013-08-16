@@ -40,16 +40,7 @@ public class AesEncrypter extends AbstractCrypto {
     @Override
     @SneakyThrows
     public String crypt(String text) {
-        return HexUtils.encodeString(encrypt(text));
-    }
-
-    public String generateIv() {
-        return HexUtils.encodeString(Aes.generateIv(cipher));
-    }
-
-    @Override
-    protected String getHeaderLine() {
-        return super.getHeaderLine() + "$" + generateIv();
+        return HexUtils.encodeString(Aes.generateIv(cipher)) + "$" + HexUtils.encodeString(encrypt(text));
     }
 
     /**
@@ -63,7 +54,7 @@ public class AesEncrypter extends AbstractCrypto {
      */
     public static String encrypt(String passPhrase, String text) {
         final AesEncrypter aesEncrypter = new AesEncrypter(passPhrase);
-        return aesEncrypter.generateIv() + "$" + aesEncrypter.crypt(text);
+        return aesEncrypter.crypt(text);
     }
 
     /**

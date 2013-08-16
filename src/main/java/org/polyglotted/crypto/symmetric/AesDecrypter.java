@@ -17,6 +17,7 @@ import org.polyglotted.crypto.utils.FileCryptoUtils;
 public class AesDecrypter extends AbstractCrypto {
 
     private final String passPhrase;
+    private boolean initialised = false;
 
     /**
      * Create a new AesDecrypter. This method does not initialize the cipher and cannot be used for encrypting without
@@ -51,6 +52,7 @@ public class AesDecrypter extends AbstractCrypto {
     @SneakyThrows
     private void initialiseCipher(byte[] iv) {
         cipher.init(Cipher.DECRYPT_MODE, Aes.createSecret(passPhrase), new IvParameterSpec(iv));
+        initialised = true;
     }
 
     @Override
@@ -60,14 +62,15 @@ public class AesDecrypter extends AbstractCrypto {
 
     @Override
     public String crypt(String cipherText) {
+        int dollarIndex = cipherText.indexOf('$');
+        if (dollarIndex > 0) {
+            if (!initialised) {
+                byte[] iv = HexUtils.decode(cipherText.substring(0, dollarIndex));
+                initialiseCipher(iv);
+            }
+            cipherText = cipherText.substring(dollarIndex + 1);
+        }
         return UTF8.getString(crypt(HexUtils.decode(cipherText)));
-    }
-
-    @Override
-    protected void handleFirstLine(String firstLine) {
-        int dollarIndex = firstLine.indexOf('$');
-        byte[] iv = HexUtils.decode(firstLine.substring(dollarIndex + 1));
-        initialiseCipher(iv);
     }
 
     /**
@@ -80,10 +83,8 @@ public class AesDecrypter extends AbstractCrypto {
      * @return the String containing plain text
      */
     public static String decrypt(String passPhrase, String cipherText) {
-        int dollarIndex = cipherText.indexOf('$');
-        byte[] iv = HexUtils.decode(cipherText.substring(0, dollarIndex));
-        final AesDecrypter aesDecrypter = new AesDecrypter(passPhrase, iv);
-        return aesDecrypter.crypt(cipherText.substring(dollarIndex + 1));
+        final AesDecrypter aesDecrypter = new AesDecrypter(passPhrase);
+        return aesDecrypter.crypt(cipherText);
     }
 
     /**
