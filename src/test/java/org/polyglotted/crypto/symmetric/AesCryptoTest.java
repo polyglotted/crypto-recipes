@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.polyglotted.crypto.utils.HexUtils;
 import org.polyglotted.crypto.utils.IoUtils;
 
 public class AesCryptoTest extends Aes {
@@ -21,6 +22,16 @@ public class AesCryptoTest extends Aes {
         String encrypted = AesEncrypter.encrypt(passPhrase, testValue);
         String decrypted = AesDecrypter.decrypt(passPhrase, encrypted);
         assertEquals(testValue, decrypted);
+    }
+
+    @Test
+    public void testDefault() {
+        String testValue = "Polyglotted Crypto";
+        String encrypted = AesEncrypter.encrypt(passPhrase, testValue);
+        int dollarIndex = encrypted.indexOf('$');
+        byte[] iv = HexUtils.decode(encrypted.substring(0, dollarIndex));
+        AesDecrypter decrypter = new AesDecrypter(passPhrase, iv);
+        assertEquals(testValue, decrypter.crypt(encrypted.substring(dollarIndex + 1)));
     }
 
     @Test
