@@ -45,11 +45,14 @@ public abstract class FileCryptoUtils {
                 if (i++ == 0) {
                     boolean handled = false;
                     handled = crypto.handlePropertyFirstLine(line, writer);
-                    if (!handled)
-                        writer.println(handle(line, 1, crypto, prefix));
+                    if (!handled) {
+                        writer.print(handle(line, 1, crypto, prefix));
+                        writer.print("\n");
+                    }
                 }
                 else {
-                    writer.println(handle(line, i + 1, crypto, prefix));
+                    writer.print(handle(line, i + 1, crypto, prefix));
+                    writer.print("\n");
                 }
             }
         }

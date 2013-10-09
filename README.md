@@ -24,7 +24,7 @@ into your project, you might also use the simple jar.
 
 Message digests produce a small "fingerprint" of a larger set of data. A message digest takes an arbitrary 
 amount of input data and produces a short, digested version of the data. This library supports usage of 
-MD5 and SHA1 message digests. For ease of use, a CRC32 checksum is also provided.
+MD5, SHA1 and SHA-512 message digests. For ease of use, a CRC32 checksum is also provided.
 
 ##Symmetric Cryptography
 

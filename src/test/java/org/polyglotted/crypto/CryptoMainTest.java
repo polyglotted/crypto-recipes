@@ -41,6 +41,6 @@ public class CryptoMainTest {
     @Test
     public void testAesDecrypt() throws Exception {
         CryptoMain.main(new String[] { "-a", "AesDecrypt", "-r", "RandomP@ssw0rd", "-t",
-                "73eba02fb1252d0819b47d38fa5e3373$4feae3e68226923b0f8202c4e219b215" });
+                "83b72e454d5197294b394dad2a2104df$90a3ff8a7fdac488e721636e481df000" });
     }
 }
