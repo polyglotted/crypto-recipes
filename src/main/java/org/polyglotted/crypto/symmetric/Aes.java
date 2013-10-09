@@ -25,7 +25,7 @@ public abstract class Aes {
 
     public static SecretKey createSecret(String passPhrase) throws InvalidKeySpecException,
             NoSuchAlgorithmException {
-        KeySpec spec = new PBEKeySpec(passPhrase.toCharArray(), SALT, 65536, 256);
+        KeySpec spec = new PBEKeySpec(passPhrase.toCharArray(), SALT, 65536, 128);
         SecretKey tmp = SecretKeyFactory.getInstance(PKCS_SHA1).generateSecret(spec);
         SecretKey secret = new SecretKeySpec(tmp.getEncoded(), AES_ENCODING);
         return secret;
