@@ -5,6 +5,8 @@ generic classes that can be used in multiple ways, this library provides readyma
 applied to situations directly. It has utilities for asymmetric key based encryption, password / 
 passphrase based symmetric encryption and message digest functionality.
 
+[![Build Status](https://buildhive.cloudbees.com/job/polyglotted/job/crypto-recipes/badge/icon)](https://buildhive.cloudbees.com/job/polyglotted/job/crypto-recipes/)
+
 ##Dependency
 The project stores a full binary jar file that could be executed.
 
